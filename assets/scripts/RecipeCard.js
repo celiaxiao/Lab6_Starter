@@ -3,6 +3,9 @@ class RecipeCard extends HTMLElement {
     // Part 1 Expose - TODO
 
     // You'll want to attach the shadow DOM here
+    // let shadow = elementRef.attachShadow({mode: 'open'});
+    super()
+    this.attachShadow({ mode: 'open' }); // sets and returns 'this.shadowRoot'
   }
 
   set data(data) {
@@ -87,7 +90,7 @@ class RecipeCard extends HTMLElement {
 
     // Here's the root element that you'll want to attach all of your other elements to
     const card = document.createElement('article');
-
+    // console.log(data.image.url)
     // Some functions that will be helpful here:
     //    document.createElement()
     //    document.querySelector()
@@ -100,6 +103,34 @@ class RecipeCard extends HTMLElement {
     // created in the constructor()
 
     // Part 1 Expose - TODO
+    const img = document.createElement('img')
+    img.setAttribute('src', searchForKey(data, "thumbnailUrl"))
+    img.setAttribute('alt', searchForKey(data, "headline"))
+    card.appendChild(img)
+
+    const title = document.createElement('p')
+    title.classList.add('title')
+    const href = document.createElement('a')
+    href.setAttribute('href', searchForKey(data, "url"))
+    href.text = searchForKey(data, "headline")
+    // console.log(searchForKey(data, "headline"))
+    title.appendChild(href)
+    card.appendChild(title)
+
+    const org = document.createElement('p')
+    org.classList.add('organization')
+    org.text = searchForKey(data, "name")
+    card.appendChild(org)
+    // console.log(searchForKey(data, "name"))
+
+    const div = document.createElement('div')
+    div.classList.add("rating")
+    if (searchForKey(data, 'ratingValue')) {
+
+    }
+    // console.log(data)
+    // console.log(searchForKey(data, "thumbnailUrl"))
+    this.shadowRoot.append(styleElem, card)
   }
 }
 

@@ -12,7 +12,7 @@ const recipes = [
 // data will be added to this object below. You may use whatever you like for the
 // keys as long as it's unique, one suggestion might but the URL itself
 const recipeData = {}
-
+const mainEle = document.querySelector("main")
 window.addEventListener('DOMContentLoaded', init);
 
 // This is the first function to be called, so when you are tracing your code start here.
@@ -43,7 +43,20 @@ async function fetchRecipes() {
     // in the recipes folder and fetch them from there. You'll need to add their paths to the recipes array.
 
     // Part 1 Expose - TODO
-  });
+    for (let i = 0; i < recipes.length; i++) {
+      fetch(recipes[i]).then(res => res.json()).then(data => {
+        recipeData[i] = data;
+        //if the last line
+        // if (i == recipes.length - 1) {
+        if (Object.keys(recipeData).length == recipes.length) {
+          console.log(recipeData)
+          resolve(true)
+        }
+      })
+        .catch(() => reject(false))
+    }
+
+  })
 }
 
 function createRecipeCards() {
@@ -52,8 +65,13 @@ function createRecipeCards() {
   // files with the recipeData Object above. Make sure you only display the 
   // three recipes we give you, you'll use the bindShowMore() function to
   // show any others you've added when the user clicks on the "Show more" button.
-
+  let recipleElement
   // Part 1 Expose - TODO
+  for (let key in recipeData) {
+    recipleElement = document.createElement('recipe-card')
+    recipleElement.data = recipeData[key]
+    mainEle.appendChild(recipleElement)
+  }
 }
 
 function bindShowMore() {
