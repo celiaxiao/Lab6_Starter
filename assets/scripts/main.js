@@ -5,7 +5,10 @@
 const recipes = [
   'https://introweb.tech/assets/json/ghostCookies.json',
   'https://introweb.tech/assets/json/birthdayCake.json',
-  'https://introweb.tech/assets/json/chocolateChip.json'
+  'https://introweb.tech/assets/json/chocolateChip.json',
+  './assets/recipes/recipe1.json',
+  './assets/recipes/recipe2.json',
+  './assets/recipes/recipe3.json',
 ];
 
 // Once all of the recipes that were specified above have been fetched, their
@@ -13,6 +16,8 @@ const recipes = [
 // keys as long as it's unique, one suggestion might but the URL itself
 const recipeData = {}
 const mainEle = document.querySelector("main")
+const smButton = document.querySelector("button")
+
 window.addEventListener('DOMContentLoaded', init);
 
 // This is the first function to be called, so when you are tracing your code start here.
@@ -67,9 +72,9 @@ function createRecipeCards() {
   // show any others you've added when the user clicks on the "Show more" button.
   let recipleElement
   // Part 1 Expose - TODO
-  for (let key in recipeData) {
+  for (let i = 0; i < 3; i++) {
     recipleElement = document.createElement('recipe-card')
-    recipleElement.data = recipeData[key]
+    recipleElement.data = recipeData[`${i}`]
     mainEle.appendChild(recipleElement)
   }
 }
@@ -83,4 +88,34 @@ function bindShowMore() {
   // in the recipeData object where you stored them/
 
   // Part 2 Explore - TODO
+  /**
+   * For this function, first create an eventListener for the Show more button. Upon click it should:
+Add the 3 new recipes that you collected to the page
+Change it's text to "Show less"
+When clicked a second time it should remove these new recipes from the page and change back to "Show more"
+   */
+  var showMore = true;
+  // var extraRecipe = []
+  smButton.addEventListener('click', () => {
+    if (showMore) {
+      for (let i = 3; i < 6; i++) {
+        let recipleElement = document.createElement('recipe-card')
+        // extraRecipe.concat(recipleElement)
+        recipleElement.data = recipeData[`${i}`]
+        recipleElement.id = i;
+        mainEle.appendChild(recipleElement)
+      }
+      smButton.textContent = "Show less"
+      showMore = false;
+    }
+    else {
+      for (let i = 3; i < 6; i++) {
+        let myobj = document.getElementById(`${i}`);
+        myobj.remove();
+        smButton.textContent = "Show more"
+        showMore = true;
+      }
+    }
+  })
+
 }
