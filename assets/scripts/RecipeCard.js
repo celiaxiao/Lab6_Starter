@@ -11,7 +11,7 @@ class RecipeCard extends HTMLElement {
   set data(data) {
     // This is the CSS that you'll use for your recipe cards
     const styleElem = document.createElement('style');
-    const styles = `
+    const styles = `676
       * {
         font-family: sans-serif;
         margin: 0;
@@ -111,7 +111,9 @@ class RecipeCard extends HTMLElement {
     const title = document.createElement('p')
     title.classList.add('title')
     const href = document.createElement('a')
-    href.setAttribute('href', searchForKey(data, "url"))
+    //href.setAttribute('href', searchForKey(data, "url"))
+    href.setAttribute('href', getUrl(data))
+
     href.text = searchForKey(data, "headline")
     // console.log(searchForKey(data, "headline"))
     title.appendChild(href)
@@ -119,15 +121,55 @@ class RecipeCard extends HTMLElement {
 
     const org = document.createElement('p')
     org.classList.add('organization')
-    org.text = searchForKey(data, "name")
+    org.textContent = getOrganization(data)
     card.appendChild(org)
     // console.log(searchForKey(data, "name"))
 
     const div = document.createElement('div')
     div.classList.add("rating")
     if (searchForKey(data, 'ratingValue')) {
+      const ratingValue = searchForKey(data, 'ratingValue')
 
+      const span1 = document.createElement('span')
+      const span2 = document.createElement('span')
+      span1.textContent = ratingValue
+      span2.textContent = `(${searchForKey(data, "ratingCount")})`
+
+      const ratingImg = document.createElement('img')
+      ratingImg.setAttribute('src', `./assets/images/icons/${Math.round(ratingValue)}-star.svg`
+      )
+      console.log(`./assets/images/icons/${Math.round(ratingValue)}-star.svg`)
+
+      ratingImg.setAttribute('alt', `${Math.round(ratingValue)} star`
+      )
+      div.appendChild(span1)
+      div.appendChild(ratingImg)
+      div.appendChild(span2)
     }
+    else {
+      const span1 = document.createElement('span')
+      span1.textContent = "No Reviews"
+      div.appendChild(span1)
+    }
+    card.appendChild(div)
+
+    const time = document.createElement('time')
+    const t1 = searchForKey(data, "totalTime")
+    const converted = convertTime(t1)
+    time.innerHTML = converted
+    card.appendChild(time)
+
+
+    const ingredients = document.createElement('p')
+    ingredients.classList.add('ingredients')
+    let ingreList = searchForKey(data, "recipeIngredient")
+    ingredients.innerHTML = createIngredientList(ingreList)
+
+    card.appendChild(ingredients)
+    //console.log(data)
+
+
+
     // console.log(data)
     // console.log(searchForKey(data, "thumbnailUrl"))
     this.shadowRoot.append(styleElem, card)
