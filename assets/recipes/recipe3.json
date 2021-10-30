@@ -84,6 +84,7 @@
         "@context": "http://schema.org/",
         "@type": "AggregateRating",
         "ratingValue": 5,
+        "ratingCount": 100,
         "reviewCount": 1,
         "worstRating": 1,
         "bestRating": 5

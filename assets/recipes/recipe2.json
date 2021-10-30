@@ -83,7 +83,7 @@
         "@context": "http://schema.org/",
         "@type": "AggregateRating",
         "ratingValue": 4,
-        "reviewCount": 3,
+        "ratingCount": 3,
         "worstRating": 1,
         "bestRating": 5
     },
